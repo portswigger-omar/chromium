@@ -210,7 +210,6 @@ AimEligibilityService::AimEligibilityService(
       url_loader_factory_(url_loader_factory),
       identity_manager_(identity_manager) {
   if (base::FeatureList::IsEnabled(omnibox::kAimEnabled)) {
-    Initialize();
   }
 }
 
@@ -315,7 +314,6 @@ void AimEligibilityService::Initialize() {
 
   if (base::FeatureList::IsEnabled(
           omnibox::kAimServerRequestOnStartupEnabled)) {
-    StartServerEligibilityRequest(RequestSource::kStartup);
   }
 
   if (identity_manager_) {
@@ -330,9 +328,6 @@ void AimEligibilityService::OnPrimaryAccountChanged(
       !omnibox::kRequestOnPrimaryAccountChanges.Get()) {
     return;
   }
-  // Change to the primary account might affect AIM eligibility.
-  // Refresh the server eligibility state.
-  StartServerEligibilityRequest(RequestSource::kPrimaryAccountChange);
 }
 
 void AimEligibilityService::OnAccountsInCookieUpdated(
@@ -373,6 +368,7 @@ void AimEligibilityService::UpdateMostRecentResponse(
 }
 
 void AimEligibilityService::LoadMostRecentResponse() {
+  return;
   CHECK(initialized_);
 
   omnibox::AimEligibilityResponse prefs_response;
